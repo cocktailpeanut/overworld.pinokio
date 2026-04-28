@@ -4,6 +4,13 @@ Overworld is a local, browser-playable AI world model demo for Pinokio. Pick a s
 
 This launcher uses Overworld's Biome server components with a minimal web game UI. The default profile is the lowest VRAM option and is prepared during install so the first launch can reuse local model and compile caches.
 
+# License
+
+- Biome: https://github.com/Overworldai/Biome
+- World Engine: https://github.com/Overworldai/world_engine
+
+The Overworld world engine and Biome server are GPL licensed.
+
 ## Screenshots
 
 ![Seed selection screen](docs/screenshots/landing.png)
