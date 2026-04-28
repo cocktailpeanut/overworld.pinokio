@@ -217,14 +217,19 @@ function sendRpc(type, payload) {
 async function initSession() {
   const selected = profiles[profile.value]
   const seedData = await seedToBase64()
+  const liveSession = ready && ws && ws.readyState === WebSocket.OPEN
   setHasWorld(true)
   setLoading(true)
-  resumeAfterInitError = ready
+  resumeAfterInitError = liveSession
   lastWarning = ""
   awaitingInitFrame = true
-  ready = false
-  cancelAnimationFrame(raf)
-  setState("loading model")
+  if (!liveSession) {
+    ready = false
+    cancelAnimationFrame(raf)
+    setState("loading model")
+  } else {
+    setState("resetting world")
+  }
   pendingInitReqId = sendRpc("init", {
     model: selected.model,
     quant: selected.quant,
