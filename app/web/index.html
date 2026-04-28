@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Overworld</title>
+  <link rel="stylesheet" href="style.css?v=20260427-13">
+</head>
+<body>
+  <main class="shell">
+    <section class="stage" id="stage" tabindex="0">
+      <canvas id="view" width="1280" height="720"></canvas>
+      <div class="reticle"></div>
+      <div class="start-screen" id="startScreen">
+        <div class="start-brand">
+          <span class="mark"></span>
+          <span>OVERWORLD</span>
+        </div>
+        <div class="start-copy">
+          <div class="start-title">select a world seed</div>
+          <div class="start-status">
+            <span>local engine</span>
+            <span>low vram default</span>
+            <span>browser playable</span>
+          </div>
+        </div>
+        <div class="seed-gallery" id="seedGallery" aria-label="Seed image choices">
+          <button class="seed-card upload-card" id="uploadTile" type="button">
+            <span class="upload-glyph">+</span>
+            <span>Custom image</span>
+          </button>
+        </div>
+      </div>
+      <div class="loading-console" id="loadingConsole" aria-live="polite">
+        <div class="loading-head">
+          <span>engine boot</span>
+          <span id="loadingState">offline</span>
+        </div>
+        <pre id="loadingLog"></pre>
+      </div>
+      <div class="overlay top">
+        <div class="stats">
+          <span id="state">offline</span>
+          <span id="fps">0 fps</span>
+          <span id="frame">frame 0</span>
+          <span id="vram">vram --</span>
+        </div>
+      </div>
+      <div class="hud-actions" aria-label="World actions">
+        <button class="hud-button mouse-lock-button" id="lock" type="button" aria-label="Mouse lock" title="Mouse lock">
+          <span class="lock-icon"></span>
+        </button>
+        <button class="hud-button reset-button" id="reset" type="button" aria-label="Reset world" title="Reset world">
+          <span class="reset-icon"></span>
+        </button>
+        <button class="hud-button settings-toggle" id="settingsToggle" type="button" aria-label="Settings" title="Settings">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <aside class="panel" id="settingsPanel" aria-label="Settings">
+        <label>
+          Profile
+          <select id="profile">
+            <option value="low" selected>Low VRAM 360p INT8 - est. 8-10 GB VRAM</option>
+            <option value="balanced">360p BF16 - est. 12-14 GB VRAM</option>
+            <option value="quality">720p INT8 - est. 14-16 GB VRAM</option>
+            <option value="max">720p BF16 - est. 18-20 GB VRAM</option>
+          </select>
+          <small id="profileHint"></small>
+        </label>
+        <label>
+          Example image
+          <select id="seed" class="hidden-select" aria-hidden="true" tabindex="-1"></select>
+          <div class="seed-picker" id="seedPicker" aria-label="Example image choices"></div>
+        </label>
+        <textarea id="prompt" class="hidden-control" aria-hidden="true" tabindex="-1">First-person exploration through a coherent playable world, responsive camera movement, natural lighting, cinematic detail.</textarea>
+        <label>
+          Custom image
+          <input id="upload" type="file" accept="image/*">
+        </label>
+        <div class="controls">
+          <span>WASD</span>
+          <span>Point to look</span>
+          <span>Shift</span>
+          <span>Space</span>
+        </div>
+        <pre id="log"></pre>
+      </aside>
+    </section>
+  </main>
+  <script src="app.js?v=20260427-13"></script>
+</body>
+</html>
