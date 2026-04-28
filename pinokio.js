@@ -4,7 +4,8 @@ module.exports = {
   description: "Server-only playable Overworld Waypoint world model launcher with a browser game UI.",
   icon: "icon.png",
   menu: async (kernel, info) => {
-    const installed = info.exists("app/biome/server-components/.venv")
+    const installed = info.exists("app/cache/prepared/low.json")
+    const dependenciesInstalled = info.exists("app/biome/server-components/.venv")
     const installing = info.running("install.js")
     const running = info.running("start.js")
     const updating = info.running("update.js")
@@ -59,12 +60,25 @@ module.exports = {
       }]
     }
 
-    if (!installed) {
+    if (!dependenciesInstalled) {
       return [{
         default: true,
         icon: "fa-solid fa-plug",
         text: "Install",
         href: "install.js"
+      }]
+    }
+
+    if (!installed) {
+      return [{
+        default: true,
+        icon: "fa-solid fa-plug",
+        text: "Prepare",
+        href: "install.js"
+      }, {
+        icon: "fa-solid fa-broom",
+        text: "Reset",
+        href: "reset.js"
       }]
     }
 

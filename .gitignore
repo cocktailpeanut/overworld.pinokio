@@ -1,0 +1,5 @@
+app/biome/
+app/cache/
+app/.cache/
+cache/
+logs/
