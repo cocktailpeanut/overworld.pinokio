@@ -1,5 +1,5 @@
 {
   "title": "Overworld",
-  "description": "Playable AI world model demo powered by Overworld Waypoint and Biome server components.",
+  "description": "[NVIDIA GPU REQUIRED] Realtime world generator by Overworld Waypoint world model",
   "icon": "icon.png"
 }

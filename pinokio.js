@@ -1,7 +1,7 @@
 module.exports = {
   version: "7.0",
   title: "Overworld",
-  description: "Server-only playable Overworld Waypoint world model launcher with a browser game UI.",
+  description: "[NVIDIA GPU REQUIRED] Realtime world generator by Overworld Waypoint world model",
   icon: "icon.png",
   menu: async (kernel, info) => {
     const installed = info.exists("app/cache/prepared/low.json")
