@@ -6,6 +6,7 @@ from pathlib import Path
 
 import uvicorn
 from fastapi.staticfiles import StaticFiles
+from starlette.routing import Match, Mount
 
 
 ROOT = Path(__file__).resolve().parent
@@ -19,8 +20,15 @@ if str(BIOME_SERVER) not in sys.path:
 from server import app  # noqa: E402
 
 
-app.mount("/seeds", StaticFiles(directory=SEEDS_ROOT), name="seeds")
-app.mount("/", StaticFiles(directory=WEB_ROOT, html=True), name="web")
+class HttpOnlyMount(Mount):
+    def matches(self, scope):
+        if scope["type"] != "http":
+            return Match.NONE, {}
+        return super().matches(scope)
+
+
+app.routes.append(HttpOnlyMount("/seeds", app=StaticFiles(directory=SEEDS_ROOT), name="seeds"))
+app.routes.append(HttpOnlyMount("/", app=StaticFiles(directory=WEB_ROOT, html=True), name="web"))
 
 
 def main() -> None:
