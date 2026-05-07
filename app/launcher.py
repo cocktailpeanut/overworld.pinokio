@@ -17,7 +17,7 @@ WEB_ROOT = ROOT / "web"
 if str(BIOME_SERVER) not in sys.path:
     sys.path.insert(0, str(BIOME_SERVER))
 
-from server import app  # noqa: E402
+from main import StartupConfig, app  # noqa: E402
 
 
 class HttpOnlyMount(Mount):
@@ -38,6 +38,7 @@ def main() -> None:
     args = parser.parse_args()
 
     print(f"http://{args.host}:{args.port}", flush=True)
+    app.state.startup_config = StartupConfig(parent_pid=None)
     uvicorn.run(
         app,
         host=args.host,
