@@ -1,3 +1,5 @@
+const BIOME_COMMIT = "a1ae46a"
+
 module.exports = {
   requires: {
     bundle: "ai"
@@ -18,9 +20,10 @@ module.exports = {
       params: {
         path: "app/biome",
         message: [
+          "git fetch origin main",
           "git sparse-checkout init --cone",
           "git sparse-checkout set server-components seeds",
-          "git checkout main"
+          "git checkout " + BIOME_COMMIT
         ]
       }
     },

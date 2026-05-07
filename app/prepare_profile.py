@@ -112,7 +112,7 @@ class ProgressHeartbeat:
 
 async def prepare(profile_key: str, seed_name: str) -> dict:
     import torch
-    from engine.manager import WorldEngineManager
+    from engine_manager import WorldEngineManager
 
     profile = PROFILES[profile_key]
     seed_path = SEEDS / seed_name
@@ -157,7 +157,7 @@ async def prepare(profile_key: str, seed_name: str) -> dict:
         # in the same cache directories used by the browser server.
         heartbeat.update("Starting post-warmup session init")
         t0 = time.perf_counter()
-        manager.init_session()
+        await manager.init_session()
         init_seconds = time.perf_counter() - t0
         print(f"[prepare] Session init completed in {init_seconds:.2f}s", flush=True)
 

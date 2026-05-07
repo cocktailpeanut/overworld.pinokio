@@ -159,6 +159,18 @@ function log(line) {
   loadingLogEl.scrollTop = loadingLogEl.scrollHeight
 }
 
+function formatLogMessage(msg) {
+  if (msg.line) return String(msg.line)
+  const fields = msg.fields || {}
+  const details = Object.entries(fields)
+    .filter(([key]) => !["client_host"].includes(key))
+    .map(([key, value]) => `${key}=${value}`)
+    .join(" ")
+  const prefix = [msg.timestamp, msg.level, msg.logger].filter(Boolean).join(" ")
+  const line = [prefix, msg.event, details].filter(Boolean).join(" ")
+  return msg.exception ? `${line}\n${msg.exception}` : line
+}
+
 function messageText(id) {
   const messages = {
     "app.server.warning.seedUnsafe": "seed image rejected by safety checker",
@@ -294,7 +306,7 @@ function connect() {
     if (event.data instanceof ArrayBuffer) {
       const { header, blob } = parseBinaryFrame(event.data)
       drawFrame(blob, header).catch(() => {})
-      if (awaitingInitFrame && Number(header.frame_id || 0) <= 1) {
+      if (awaitingInitFrame) {
         awaitingInitFrame = false
         setLoading(false)
         ready = true
@@ -306,6 +318,7 @@ function connect() {
     const msg = JSON.parse(event.data)
     if (msg.type === "status") {
       setState(msg.stage || "status")
+      log(msg.message || msg.stage || "status")
       if (msg.stage === "session.ready") {
         ready = true
         pendingInitReqId = null
@@ -372,7 +385,7 @@ function connect() {
       setState("error")
       log(`error: ${msg.message || msg.message_id || JSON.stringify(msg)}`)
     } else if (msg.type === "log") {
-      const line = String(msg.line || "")
+      const line = formatLogMessage(msg)
       if (line) log(line)
     } else if (msg.type === "system_info") {
       log(`gpu: ${msg.gpu_name || "unknown"}`)
